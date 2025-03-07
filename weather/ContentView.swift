@@ -8,19 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var  nightMode = false
     var body: some View {
         ZStack{
-            LinearGradient(
-                gradient: Gradient(colors: [.blue, .white]),
-                startPoint: .topLeading, endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(.all)
+            BackgroundColorView(topColor:nightMode ? .black: .blue, bottomColor: nightMode ? .gray: .white)
             VStack{
                 Text("Dhaka,Bangladesh")
                     .font(.system(size: 32, weight: .medium, design: .default))
                     .foregroundColor(.white)
                     .padding()
                 VStack(spacing:10){
-                    Image(systemName: "cloud.sun.fill")
+                    Image(systemName: nightMode ? "moon.stars.fill" :"cloud.sun.fill")
                         .renderingMode(.original)
                         .resizable()
                         .frame(width: 180, height: 180,alignment: .center)
@@ -42,6 +40,7 @@ struct ContentView: View {
                 Spacer()
                 Button{
                     print("weather")
+                    nightMode.toggle()
                 }label:{
                     Text("Change  Day time")
                         .frame(width: 200, height: 50, alignment: .center)
@@ -52,9 +51,6 @@ struct ContentView: View {
                
                 Spacer()
                 
-                
-                
-                    
                 
             }
             
@@ -86,5 +82,16 @@ struct WeatherOfWeakView: View {
                 .font(.system(size: 28, weight: .medium, design: .default))
                 .foregroundColor(.white)
         }
+    }
+}
+
+struct BackgroundColorView: View {
+    var topColor: Color
+    var bottomColor: Color
+    var body: some View {
+        LinearGradient(
+            gradient: Gradient(colors: [topColor, bottomColor]),
+            startPoint: .topLeading, endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(.all)
     }
 }
